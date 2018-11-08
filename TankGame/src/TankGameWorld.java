@@ -1,64 +1,147 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.net.URL;
-import java.util.*;
-import javax.swing.*;
 import javax.imageio.ImageIO;
-import java.io.File;
-import java.util.Observable;
-import java.util.Observer;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.ArrayList;
+import static javax.imageio.ImageIO.read;
 
+public class TankGameWorld extends JPanel {
 
-public class TankGameWorld extends JApplet implements Runnable {
-
-    private Thread thread;
-    private static final TankGameWorld tankGame = new TankGameWorld();
-    private final int width = 900, height = 600;
-
-    private BufferedImage battleField;
+    public static final int width = 1216, height = 608;
+    private Graphics2D buffer, g2;
+    private JFrame jf;
+    private Tank tank1;
+    private Tank tank2;
+    private Image wall, breakableWall;
+    private BufferedImage battleField, world;
+    private ArrayList<Wall> walls = new ArrayList<>();
+    private InputStream textWalls;
 
     public void init() {
 
-        setFocusable(true);
+        this.jf = new JFrame("Tank Rotation");
+        this.jf.setLocation(200, 200);
+        this.world = new BufferedImage(TankGameWorld.width, TankGameWorld.height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage tank1img = null, tank2img = null;
+
         try {
+            BufferedImage tmp;
             battleField = ImageIO.read(new File("Resources/Background.bmp"));
+            wall = ImageIO.read(new File("Resources/Wall1.gif"));
+            breakableWall = ImageIO.read(new File("Resources/Wall2.gif"));
+            textWalls = new FileInputStream("Resources/tankmap.txt");
+            System.out.println(System.getProperty("user.dir"));
+            tank1img = read(new File("Resources/tank1.png"));
+            mapMaker();
         }
-        catch (Exception e) {
-            System.out.print(e.getStackTrace() +" No resources are found");
+        catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
+
+        tank1 = new Tank(100, 400, 0, 0, 0, tank1img);
+        TankControl tankC1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
+
+        tank2 = new Tank(1065, 400, 0, 0, 0, tank1img);
+        TankControl tankC2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
+
+        this.jf.setLayout(new BorderLayout());
+        this.jf.add(this);
+        this.jf.addKeyListener(tankC1);
+        this.jf.addKeyListener(tankC2);
+        this.jf.setSize(TankGameWorld.width, TankGameWorld.height + 30);
+        this.jf.setResizable(false);
+        jf.setLocationRelativeTo(null);
+        this.jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.jf.setVisible(true);
     }
 
-    public void start() {
-        thread = new Thread(this);
-        thread.setPriority(Thread.MIN_PRIORITY);
-        thread.start();
-    }
+        public void paintComponent(Graphics g) {
 
-    public void run() {
+            g2 = (Graphics2D) g;
+            g2.drawImage(world, 0, 0, null);
+            buffer = world.createGraphics();
 
-        Thread me = Thread.currentThread();
-        while (thread == me) {
-            repaint();
-            try {
-                thread.sleep(25);
-            } catch (InterruptedException e) {
-                break;
+            drawBullets();
+            drawBackGround(buffer);
+            drawWall();
+            tank1.draw(buffer);
+            tank2.draw(buffer);
+        }
+
+        public void drawBullets() {
+
+                for (int i = 0; i < tank1.getBulletList().size(); i++) {
+                    tank1.getBulletList().get(i).draw(g2, this);
+                }
+                for (int i = 0; i < tank2.getBulletList().size(); i++) {
+                    tank2.getBulletList().get(i).draw(g2, this);
+                }
+            }
+
+        public void updateBullets() {
+
+                for (int i = 0; i < tank1.getBulletList().size(); i++) {
+                    tank1.getBulletList().get(i).update();
+                }
+                for (int i = 0; i < tank2.getBulletList().size(); i++) {
+                    tank2.getBulletList().get(i).update();
+                    }
+                }
+
+        public void drawBackGround(Graphics2D buffer) {
+
+            int tileWidth = battleField.getWidth();
+            int tileHeight = battleField.getHeight();
+
+            int NumberX = width / tileWidth;
+            int NumberY = height / tileHeight;
+
+            for (int i = -1; i <= NumberY; i++) {
+
+                for (int j = 0; j <= NumberX; j++) {
+                    buffer.drawImage(battleField, j * tileWidth,i * tileHeight + tileHeight,
+                            tileWidth, tileHeight, this);
+                }
             }
         }
+
+    public void mapMaker() {
+
+        BufferedReader line = new BufferedReader(new InputStreamReader(textWalls));
+        int i, j = 0;
+        String num;
+
+        try {
+            num = line.readLine();
+
+            while (num != null) {
+
+                for ( i = 0; i < num.length(); i++) {
+
+                    if (num.charAt(i) == '1') {
+                        walls.add(new Wall(wall, i * 32, j * 32));
+                    }
+                    else if (num.charAt(i) == '2') {
+                        walls.add(new Wall(breakableWall, i * 32, j * 32));
+                    }
+                }
+                j++;
+                num = line.readLine();
+            }
+        }
+        catch (Exception e) {
+            System.err.println("Map Maker" + e);
+        }
     }
 
-    public void paint(Graphics g) {
+    public void drawWall() {
 
-        int tileWidth = battleField.getWidth();
-        int tileHeight = battleField.getHeight();
+        if (!walls.isEmpty()) {
 
-        int NumberX = 5;
-        int NumberY = 7;
-
-        for (int i = 0; i < NumberY; i++) {
-            for (int j = 0; j < NumberX; j++) {
-                g.drawImage(battleField, j * tileWidth, i * tileHeight, tileWidth, tileHeight, this);
+            for (int i = 0; i <= walls.size() - 1; i++) {
+                walls.get(i).draw( buffer);
             }
         }
     }
@@ -67,14 +150,20 @@ public class TankGameWorld extends JApplet implements Runnable {
 
         TankGameWorld TGW = new TankGameWorld();
         TGW.init();
-        JFrame JF = new JFrame("Tank Game");
-        JF.addWindowListener(new WindowAdapter() {});
-        JF.getContentPane().add("Center",TGW);
-        JF.pack();
-        JF.setSize(new Dimension(tankGame.width, tankGame.height));
-        JF.setResizable(false);
-        JF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JF.setVisible(true);
-        TGW.start();
+
+        try {
+            while (true) {
+
+                TGW.tank1.update();
+                TGW.tank2.update();
+                TGW.updateBullets();
+                TGW.repaint();
+                Thread.sleep(1000 / 144);
+            }
+        }
+        catch (InterruptedException ignored) {
+
+        }
     }
 }
+
