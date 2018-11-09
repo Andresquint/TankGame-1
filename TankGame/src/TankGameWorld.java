@@ -21,7 +21,7 @@ public class TankGameWorld extends JPanel {
 
     public void init() {
 
-        this.jf = new JFrame("Tank Rotation");
+        this.jf = new JFrame("Tank Wars");
         this.jf.setLocation(200, 200);
         this.world = new BufferedImage(TankGameWorld.width, TankGameWorld.height, BufferedImage.TYPE_INT_RGB);
         BufferedImage tank1img = null, tank2img = null;
@@ -31,20 +31,21 @@ public class TankGameWorld extends JPanel {
             battleField = ImageIO.read(new File("Resources/Background.bmp"));
             wall = ImageIO.read(new File("Resources/Wall1.gif"));
             breakableWall = ImageIO.read(new File("Resources/Wall2.gif"));
-            textWalls = new FileInputStream("Resources/tankmap.txt");
+            textWalls = new FileInputStream("Resources/WallMap.txt");
             System.out.println(System.getProperty("user.dir"));
-            tank1img = read(new File("Resources/tank1.png"));
+            tank1img = read(new File("Resources/Tank1.gif"));
+            tank2img = read(new File("Resources/Tank2.gif"));
             mapMaker();
         }
         catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
 
-        tank1 = new Tank(100, 400, 0, 0, 0, tank1img);
+        tank1 = new Tank(100, 450, 0, 0, 0, tank1img);
         TankControl tankC1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
 
-        tank2 = new Tank(1065, 400, 0, 0, 0, tank1img);
-        TankControl tankC2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
+        tank2 = new Tank(1065, 100, 0, 0, 180, tank2img);
+        TankControl tankC2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
 
         this.jf.setLayout(new BorderLayout());
         this.jf.add(this);
