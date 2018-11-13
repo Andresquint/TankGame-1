@@ -2,16 +2,18 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.ImageObserver;
 
-public class Bullet {
+public class Bullet extends GameObject{
 
     private int damage;
     private boolean show;
     private int x, y, vx, vy, bulletSpeed;
     private Image img;
     private int angle;
+    private Tank tank;
 
     public Bullet(Image img, int angle, int x, int y){
 
+        super(img, x, y);
         this.img = img;
         this.x = x;
         this.y = y;
@@ -32,6 +34,11 @@ public class Bullet {
         }
         return false;
         }
+
+    public  Rectangle getRectangle1 (){
+
+        return new Rectangle(x, y, width, height);
+    }
 
     public void draw(Graphics2D g, TankGameWorld tankGameWorld) {
 

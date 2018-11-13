@@ -2,10 +2,8 @@ import java.awt.*;
 
 public abstract class GameObject {
 
-    protected int x, y, speed, height, width;
-    Rectangle bbox;
-    protected boolean dead;
-    protected Image[] imgs = new Image[3];
+    protected int x, y, height, width;
+    Rectangle box;
     protected Image img;
 
 
@@ -14,8 +12,23 @@ public abstract class GameObject {
         this.img = img;
         this.x = x;
         this.y = y;
-        this.speed = speed;
         this.height = img.getHeight(null);
         this.width = img.getWidth(null);
+    }
+
+    public int getX(){
+        return this.x;
+    }
+
+    public int getY(){
+        return this.y;
+    }
+
+    public int getWidth(){
+        return this.width;
+    }
+
+    public int getHeight(){
+        return this.height;
     }
 }

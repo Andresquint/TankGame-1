@@ -3,17 +3,16 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class Tank{
+public class Tank extends GameObject {
 
-    private int x;
-    private int y;
     private int vx;
     private int vy;
     private int angle;
-    private final int tankSpeed = 1;
-    private final int rotationSpeed = 1;
+    private final int tankSpeed;
+    private final int rotationSpeed = 2;
     private BufferedImage img;
     private Image bulletImg;
     private ArrayList<Bullet> myBulletList;
@@ -24,22 +23,32 @@ public class Tank{
     private boolean FirePressed;
     private double time;
     private double lastAttack = 0;
-    private double bulletDelayTime = 1000;
+    private double bulletDelayTime = 400;
+    private int saveX;
+    private int saveY;
+    private int respawnX;
+    private int respawnY;
+    private boolean collides;
+    private int health;
 
-    Tank(int x, int y, int vx, int vy, int angle, BufferedImage img) {
+    Tank(int speed, int x, int y, int vx, int vy, int angle, BufferedImage img) {
 
-        this.x = x;
-        this.y = y;
+        super(img, x, y);
         this.vx = vx;
         this.vy = vy;
         this.img = img;
         this.angle = angle;
         this.myBulletList = new ArrayList<>();
+        this.tankSpeed = speed;
+        this.health = 3;
+        respawnX = x;
+        respawnY = y;
 
         try {
             bulletImg = ImageIO.read(new File("Resources/Shell 2.gif"));
-        } catch (Exception e) {
-            System.out.print(e.getMessage() + "Player plane: no resources are found");
+        }
+        catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -84,26 +93,29 @@ public class Tank{
     }
 
     public ArrayList<Bullet> getBulletList(){
-        return this.myBulletList;
+       return this.myBulletList;
     }
 
     public void update() {
 
-        if (this.UpPressed) {
-            this.moveForwards();
+       if (!collides) {
+           saveCordinates();
         }
-        if (this.DownPressed) {
-            this.moveBackwards();
-        }
-        if (this.LeftPressed) {
-            this.rotateLeft();
-        }
-        if (this.RightPressed) {
-            this.rotateRight();
-        }
-        if (this.FirePressed) {
-            fire();
-        }
+       if (this.UpPressed) {
+           this.moveForwards();
+       }
+       if (this.DownPressed) {
+           this.moveBackwards();
+       }
+       if (this.LeftPressed) {
+           this.rotateLeft();
+       }
+       if (this.RightPressed) {
+           this.rotateRight();
+       }
+       if (this.FirePressed) {
+           fire();
+       }
     }
 
     private void rotateLeft() {
@@ -137,8 +149,45 @@ public class Tank{
         time = System.currentTimeMillis();
 
         if (time > lastAttack + bulletDelayTime) {
+
             myBulletList.add(new Bullet(bulletImg, angle,x+16,y+16));
             lastAttack = time;
+        }
+    }
+
+    public void saveCordinates() {
+
+        saveX = x;
+        saveY = y;
+    }
+
+    public void setCollides(boolean collides) {
+        this.collides = collides;
+    }
+
+    public void handleCollision(){
+
+        if (collides){
+            this.x = saveX;
+            this.y = saveY;
+            collides = false;
+        }
+    }
+
+    public void setHealth(int health){
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return this.health;
+    }
+
+    public void Respawn() {
+
+        if (health == 0) {
+            this.x = respawnX;
+            this.y = respawnY;
+            health = 3;
         }
     }
 
@@ -160,14 +209,18 @@ public class Tank{
 
     public int getTankCenterX() {
 
-        return x + img.getWidth(null) / 2;
+        return x + img.getWidth() / 2;
     }
 
     public int getTankCenterY() {
 
-        return y + img.getWidth(null) / 2;
+        return y + img.getWidth() / 2;
     }
 
+    public  Rectangle getRectangle (){
+
+        return new Rectangle(x, y, width, height);
+    }
     @Override
     public String toString() {
 
