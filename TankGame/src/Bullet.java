@@ -1,15 +1,11 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.ImageObserver;
 
 public class Bullet extends GameObject{
 
-    private int damage;
-    private boolean show;
-    private int x, y, vx, vy, bulletSpeed;
+    private int x, y, moveXDirection, moveYDirection, bulletSpeed;
     private Image img;
     private int angle;
-    private Tank tank;
 
     public Bullet(Image img, int angle, int x, int y){
 
@@ -18,15 +14,15 @@ public class Bullet extends GameObject{
         this.x = x;
         this.y = y;
         this.angle = angle;
-        bulletSpeed = 10;
-        vx = (int) Math.round(bulletSpeed * Math.cos(Math.toRadians(angle)));
-        vy = (int) Math.round(bulletSpeed * Math.sin(Math.toRadians(angle)));
+        bulletSpeed = 8;
+        moveXDirection = (int) Math.round(bulletSpeed * Math.cos(Math.toRadians(angle)));
+        moveYDirection = (int) Math.round(bulletSpeed * Math.sin(Math.toRadians(angle)));
     }
 
     public boolean update(){
 
-        x += vx;
-        y += vy;
+        x += moveXDirection;
+        y += moveYDirection;
 
         if(x < -bulletSpeed || x > TankGameWorld.width + bulletSpeed ||
         y < -bulletSpeed || y > TankGameWorld.height + bulletSpeed){
@@ -35,7 +31,7 @@ public class Bullet extends GameObject{
         return false;
         }
 
-    public  Rectangle getRectangle1 (){
+    public  Rectangle getBulletRectangle (){
 
         return new Rectangle(x, y, width, height);
     }

@@ -12,17 +12,13 @@ public class TankGameWorld extends JPanel {
     public static final int width = 1408, height = 704;
     private Graphics2D buffer, g2;
     private JFrame jf;
-    private static Tank tank1;
-    private static Tank tank2;
-    private Image wall, breakableWall;
-    private BufferedImage battleField, world;
-    private ArrayList<Wall> walls = new ArrayList<>();
-    private Image bulletImg;
+    private static Tank tank1, tank2;
+    private Image wall, breakableWall, bulletImg;
     private InputStream textWalls;
-    private Rectangle tank1Rec;
-    private Rectangle tank2Rec;
-    private Rectangle wallRec;
-    private Rectangle bulletRec;
+    private ArrayList<Wall> walls = new ArrayList<>();
+    private BufferedImage battleField, world;
+    private Rectangle tank1Rec, tank2Rec, wallRec, bulletRec;
+
 
     public void init() {
 
@@ -47,10 +43,10 @@ public class TankGameWorld extends JPanel {
             System.out.println(ex.getMessage());
         }
 
-        tank1 = new Tank(3,100, 550, 0, 0, 0, tank1img);
+        tank1 = new Tank(3,100, 550,  0, tank1img);
         TankControl tankC1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
 
-        tank2 = new Tank(3,1240, 90, 0, 0, 180, tank2img);
+        tank2 = new Tank(3,1240, 90, 180, tank2img);
         TankControl tankC2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
 
         this.jf.setLayout(new BorderLayout());
@@ -114,39 +110,40 @@ public class TankGameWorld extends JPanel {
         int tileWidth = battleField.getWidth();
         int tileHeight = battleField.getHeight();
 
-        int NumberX = width / tileWidth;
-        int NumberY = height / tileHeight;
+        int numberX = width / tileWidth;
+        int numberY = height / tileHeight;
 
-        for (int i = -1; i <= NumberY; i++) {
+        for (int i = -1; i <= numberY; i++) {
 
-            for (int j = 0; j <= NumberX; j++) {
+            for (int j = 0; j <= numberX; j++) {
                 buffer.drawImage(battleField, j * tileWidth,i * tileHeight + tileHeight,
                         tileWidth, tileHeight, this);
             }
         }
     }
+    
     public void mapMaker() {
 
         BufferedReader line = new BufferedReader(new InputStreamReader(textWalls));
         int i, j = 0;
-        String num;
+        String number;
 
         try {
-            num = line.readLine();
+            number = line.readLine();
 
-            while (num != null) {
+            while (number != null) {
 
-                for ( i = 0; i < num.length(); i++) {
+                for ( i = 0; i < number.length(); i++ ) {
 
-                    if (num.charAt(i) == '1') {
+                    if (number.charAt(i) == '1') {
                         walls.add(new Wall(wall, i * 32, j * 32, 1));
                     }
-                    else if (num.charAt(i) == '2') {
+                    else if (number.charAt(i) == '2') {
                         walls.add(new Wall(breakableWall, i * 32, j * 32, 2));
                     }
                 }
                 j++;
-                num = line.readLine();
+                number = line.readLine();
             }
         }
         catch (Exception e) {
@@ -166,8 +163,8 @@ public class TankGameWorld extends JPanel {
 
     public void checkCollision() {
 
-        tank1Rec = tank1.getRectangle();
-        tank2Rec = tank2.getRectangle();
+        tank1Rec = tank1.getTankRectangle();
+        tank2Rec = tank2.getTankRectangle();
 
         if (tank1Rec.intersects(tank2Rec)) {
 
@@ -181,7 +178,7 @@ public class TankGameWorld extends JPanel {
         }
         for (int i = 0; i <= walls.size() - 1; i++) {
 
-            wallRec = walls.get(i).getRectangle();
+            wallRec = walls.get(i).getWallRectangle();
 
             if (tank1Rec.intersects(wallRec) || tank2Rec.intersects(wallRec)) {
 
@@ -192,7 +189,7 @@ public class TankGameWorld extends JPanel {
                 }
             for (int j = 0; j < tank1.getBulletList().size(); j++) {
 
-                bulletRec = tank1.getBulletList().get(j).getRectangle1();
+                bulletRec = tank1.getBulletList().get(j).getBulletRectangle();
 
                 if (wallRec.intersects(bulletRec)) {
                     System.out.println("hit");
@@ -203,7 +200,7 @@ public class TankGameWorld extends JPanel {
             }
             for (int j = 0; j < tank2.getBulletList().size(); j++) {
 
-                bulletRec = tank2.getBulletList().get(j).getRectangle1();
+                bulletRec = tank2.getBulletList().get(j).getBulletRectangle();
 
                 if (wallRec.intersects(bulletRec)) {
                     System.out.println("hit");
@@ -216,7 +213,7 @@ public class TankGameWorld extends JPanel {
         }
         for (int i = 0; i < tank1.getBulletList().size(); i++) {
 
-            bulletRec = tank1.getBulletList().get(i).getRectangle1();
+            bulletRec = tank1.getBulletList().get(i).getBulletRectangle();
 
             if (tank2Rec.intersects(bulletRec)) {
                 System.out.println("hit");
@@ -228,7 +225,7 @@ public class TankGameWorld extends JPanel {
         }
         for (int i = 0; i < tank2.getBulletList().size(); i++) {
 
-            bulletRec = tank2.getBulletList().get(i).getRectangle1();
+            bulletRec = tank2.getBulletList().get(i).getBulletRectangle();
 
             if (tank1Rec.intersects(bulletRec)){
                 System.out.println("hit");
@@ -257,7 +254,6 @@ public class TankGameWorld extends JPanel {
             }
         }
         catch (InterruptedException ignored) {
-
         }
     }
 }

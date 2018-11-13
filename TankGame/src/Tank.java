@@ -8,41 +8,28 @@ import java.util.ArrayList;
 
 public class Tank extends GameObject {
 
-    private int vx;
-    private int vy;
-    private int angle;
-    private final int tankSpeed;
-    private final int rotationSpeed = 2;
+    private int moveXDirection, moveYDirection, angle;
+    private int tankSpeed, rotationSpeed = 2;
     private BufferedImage img;
     private Image bulletImg;
-    private ArrayList<Bullet> myBulletList;
-    private boolean UpPressed;
-    private boolean DownPressed;
-    private boolean RightPressed;
-    private boolean LeftPressed;
-    private boolean FirePressed;
-    private double time;
-    private double lastAttack = 0;
-    private double bulletDelayTime = 400;
-    private int saveX;
-    private int saveY;
-    private int respawnX;
-    private int respawnY;
+    private ArrayList<Bullet> BulletList;
+    private boolean UpPressed, DownPressed, RightPressed, LeftPressed, ShootPressed;
+    private double time, lastAttack = 0, bulletDelayTime = 400;
+    private int saveX, saveY, respawnX, respawnY, respawnAngle;
     private boolean collides;
     private int health;
 
-    Tank(int speed, int x, int y, int vx, int vy, int angle, BufferedImage img) {
+    Tank(int speed, int x, int y, int angle, BufferedImage img) {
 
         super(img, x, y);
-        this.vx = vx;
-        this.vy = vy;
         this.img = img;
         this.angle = angle;
-        this.myBulletList = new ArrayList<>();
+        this.BulletList = new ArrayList<>();
         this.tankSpeed = speed;
         this.health = 3;
         respawnX = x;
         respawnY = y;
+        respawnAngle = angle;
 
         try {
             bulletImg = ImageIO.read(new File("Resources/Shell 2.gif"));
@@ -68,8 +55,8 @@ public class Tank extends GameObject {
         this.LeftPressed = true;
     }
 
-    void toggleFirePressed() {
-        this.FirePressed = true;
+    void toggleShootPressed() {
+        this.ShootPressed = true;
     }
 
     void unToggleUpPressed() {
@@ -88,12 +75,12 @@ public class Tank extends GameObject {
         this.LeftPressed = false;
     }
 
-    void untoggleFirePressed() {
-        this.FirePressed = false;
+    void untoggleShootPressed() {
+        this.ShootPressed = false;
     }
 
     public ArrayList<Bullet> getBulletList(){
-       return this.myBulletList;
+       return this.BulletList;
     }
 
     public void update() {
@@ -113,7 +100,7 @@ public class Tank extends GameObject {
        if (this.RightPressed) {
            this.rotateRight();
        }
-       if (this.FirePressed) {
+       if (this.ShootPressed) {
            fire();
        }
     }
@@ -128,29 +115,28 @@ public class Tank extends GameObject {
 
     private void moveBackwards() {
 
-        vx = (int) Math.round(tankSpeed * Math.cos(Math.toRadians(angle)));
-        vy = (int) Math.round(tankSpeed * Math.sin(Math.toRadians(angle)));
-        x -= vx;
-        y -= vy;
+        moveXDirection = (int) Math.round(tankSpeed * Math.cos(Math.toRadians(angle)));
+        moveYDirection = (int) Math.round(tankSpeed * Math.sin(Math.toRadians(angle)));
+        x -= moveXDirection;
+        y -= moveYDirection;
         checkBorder();
     }
 
     private void moveForwards() {
 
-        vx = (int) Math.round(tankSpeed * Math.cos(Math.toRadians(angle)));
-        vy = (int) Math.round(tankSpeed * Math.sin(Math.toRadians(angle)));
-        x += vx;
-        y += vy;
+        moveXDirection = (int) Math.round(tankSpeed * Math.cos(Math.toRadians(angle)));
+        moveYDirection = (int) Math.round(tankSpeed * Math.sin(Math.toRadians(angle)));
+        x += moveXDirection;
+        y += moveYDirection;
         checkBorder();
     }
 
     private void fire() {
 
         time = System.currentTimeMillis();
-
         if (time > lastAttack + bulletDelayTime) {
 
-            myBulletList.add(new Bullet(bulletImg, angle,x+16,y+16));
+            BulletList.add(new Bullet(bulletImg, angle,x+16,y+16));
             lastAttack = time;
         }
     }
@@ -187,6 +173,7 @@ public class Tank extends GameObject {
         if (health == 0) {
             this.x = respawnX;
             this.y = respawnY;
+            angle = respawnAngle;
             health = 3;
         }
     }
@@ -217,7 +204,7 @@ public class Tank extends GameObject {
         return y + img.getWidth() / 2;
     }
 
-    public  Rectangle getRectangle (){
+    public  Rectangle getTankRectangle (){
 
         return new Rectangle(x, y, width, height);
     }

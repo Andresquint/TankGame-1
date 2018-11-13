@@ -3,7 +3,6 @@ import java.awt.*;
 public abstract class GameObject {
 
     protected int x, y, height, width;
-    Rectangle box;
     protected Image img;
 
 

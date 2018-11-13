@@ -2,12 +2,8 @@ import java.awt.*;
 
 public class Wall extends GameObject {
 
-    private int height;
-    private int width;
-    private int x;
-    private int y;
+    private int x, y, height, width;
     private int wallType;
-
 
     public Wall(Image img, int x, int y, int type) {
 
@@ -23,7 +19,7 @@ public class Wall extends GameObject {
         return this.wallType;
     }
 
-    public Rectangle getRectangle () {
+    public Rectangle getWallRectangle () {
         return new Rectangle(x, y, width, height);
     }
 
