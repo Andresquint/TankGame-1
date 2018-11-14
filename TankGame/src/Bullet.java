@@ -24,8 +24,8 @@ public class Bullet extends GameObject{
         x += moveXDirection;
         y += moveYDirection;
 
-        if(x < -bulletSpeed || x > TankGameWorld.width + bulletSpeed ||
-        y < -bulletSpeed || y > TankGameWorld.height + bulletSpeed){
+        if(x < -bulletSpeed || x > TankGameWorld.worldWidth + bulletSpeed ||
+        y < -bulletSpeed || y > TankGameWorld.worldHeight + bulletSpeed){
             return true;
         }
         return false;

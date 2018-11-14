@@ -10,14 +10,16 @@ public class Tank extends GameObject {
 
     private int moveXDirection, moveYDirection, angle;
     private int tankSpeed, rotationSpeed = 2;
-    private BufferedImage img;
+    private static BufferedImage img;
     private Image bulletImg;
     private ArrayList<Bullet> BulletList;
     private boolean UpPressed, DownPressed, RightPressed, LeftPressed, ShootPressed;
-    private double time, lastAttack = 0, bulletDelayTime = 400;
+    private double time, lastAttack = 0, bulletDelayTime;
     private int saveX, saveY, respawnX, respawnY, respawnAngle;
     private boolean collides;
     private int health;
+    private TankGameWorld TGW;
+    private Tank tank1, tank2;
 
     Tank(int speed, int x, int y, int angle, BufferedImage img) {
 
@@ -26,7 +28,7 @@ public class Tank extends GameObject {
         this.angle = angle;
         this.BulletList = new ArrayList<>();
         this.tankSpeed = speed;
-        this.health = 3;
+        this.health = 2;
         respawnX = x;
         respawnY = y;
         respawnAngle = angle;
@@ -101,7 +103,7 @@ public class Tank extends GameObject {
            this.rotateRight();
        }
        if (this.ShootPressed) {
-           fire();
+           Shoot();
        }
     }
 
@@ -131,12 +133,20 @@ public class Tank extends GameObject {
         checkBorder();
     }
 
-    private void fire() {
+    public double getBulletDelayTime(){
+
+        if(health == 0)
+        return bulletDelayTime = 100;
+        else
+            return bulletDelayTime = 500;
+    }
+
+    private void Shoot() {
 
         time = System.currentTimeMillis();
-        if (time > lastAttack + bulletDelayTime) {
+        if (time > lastAttack + getBulletDelayTime()) {
 
-            BulletList.add(new Bullet(bulletImg, angle,x+16,y+16));
+            BulletList.add(new Bullet(bulletImg, angle,getTankCenterX(),getTankCenterY()));
             lastAttack = time;
         }
     }
@@ -170,27 +180,34 @@ public class Tank extends GameObject {
 
     public void Respawn() {
 
-        if (health == 0) {
-            this.x = respawnX;
-            this.y = respawnY;
+        if (health == -1) {
+
+            x = respawnX;
+            y = respawnY;
             angle = respawnAngle;
-            health = 3;
+
+            health = 2;
         }
     }
+    public void Respawn2(Tank tank) {
 
+            tank.x = respawnX;
+            tank.y = respawnY;
+            angle = respawnAngle;
+    }
     private void checkBorder() {
 
         if (x < 30) {
             x = 30;
         }
-        if (x >= TankGameWorld.width - 88) {
-            x = TankGameWorld.width - 88;
+        if (x >= TankGameWorld.worldWidth - 88) {
+            x = TankGameWorld.worldWidth - 88;
         }
         if (y < 40) {
             y = 40;
         }
-        if (y >= TankGameWorld.height - 80) {
-            y = TankGameWorld.height - 80;
+        if (y >= TankGameWorld.worldHeight - 80) {
+            y = TankGameWorld.worldHeight - 80;
         }
     }
 
@@ -207,6 +224,13 @@ public class Tank extends GameObject {
     public  Rectangle getTankRectangle (){
 
         return new Rectangle(x, y, width, height);
+    }
+
+    public void powerUp() {
+
+        if (health == 0) {
+            bulletDelayTime = 100;
+        }
     }
     @Override
     public String toString() {

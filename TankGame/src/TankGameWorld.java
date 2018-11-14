@@ -9,28 +9,30 @@ import static javax.imageio.ImageIO.read;
 
 public class TankGameWorld extends JPanel {
 
-    public static final int width = 1408, height = 704;
+    public static final int worldWidth = 1408, worldHeight = 704;
+    public static final int screenWidth = 1200, screenHeight = 500;
+    private int screenBoundsX, screenBoundsY;
     private Graphics2D buffer, g2;
     private JFrame jf;
     private static Tank tank1, tank2;
-    private Image wall, breakableWall, bulletImg;
+    private Image wall, breakableWall, bulletImg, health;
     private InputStream textWalls;
     private ArrayList<Wall> walls = new ArrayList<>();
-    private BufferedImage battleField, world;
+    private BufferedImage battleField, world, tank1View, tank2View;
     private Rectangle tank1Rec, tank2Rec, wallRec, bulletRec;
-
 
     public void init() {
 
         this.jf = new JFrame("Tank Wars");
         this.jf.setLocation(200, 200);
-        this.world = new BufferedImage(TankGameWorld.width, TankGameWorld.height, BufferedImage.TYPE_INT_RGB);
+        this.world = new BufferedImage(TankGameWorld.worldWidth, TankGameWorld.worldHeight, BufferedImage.TYPE_INT_RGB);
         BufferedImage tank1img = null, tank2img = null;
 
         try {
             BufferedImage tmp;
             battleField = ImageIO.read(new File("Resources/Background.bmp"));
             wall = ImageIO.read(new File("Resources/Wall1.gif"));
+            health = ImageIO.read(new File("Resources/health.gif"));
             breakableWall = ImageIO.read(new File("Resources/Wall2.gif"));
             textWalls = new FileInputStream("Resources/WallMap.txt");
             bulletImg = ImageIO.read(new File("Resources/Shell 2.gif"));
@@ -43,55 +45,99 @@ public class TankGameWorld extends JPanel {
             System.out.println(ex.getMessage());
         }
 
-        tank1 = new Tank(3,100, 550,  0, tank1img);
+        tank1 = new Tank(2,100, 550,  0, tank1img);
         TankControl tankC1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
 
-        tank2 = new Tank(3,1240, 90, 180, tank2img);
+        tank2 = new Tank(2,1240, 90, 180, tank2img);
         TankControl tankC2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
 
         this.jf.setLayout(new BorderLayout());
         this.jf.add(this);
         this.jf.addKeyListener(tankC1);
         this.jf.addKeyListener(tankC2);
-        this.jf.setSize(TankGameWorld.width, TankGameWorld.height + 30);
+        this.jf.setSize(TankGameWorld.screenWidth, TankGameWorld.screenHeight + 30);
         this.jf.setResizable(false);
         jf.setLocationRelativeTo(null);
         this.jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.jf.setVisible(true);
         }
 
-    public static Tank getTank1() {
-        return tank1;
-    }
-
-    public static Tank getTank2() {
-        return tank2;
-    }
-
-    public Image getBulletImage() {
-        return bulletImg;
-    }
-
     public void paintComponent(Graphics g) {
 
         g2 = (Graphics2D) g;
-        g2.drawImage(world, 0, 0, null);
         buffer = world.createGraphics();
 
-        drawBullets();
         drawBackGround(buffer);
         drawWall();
+        drawBullets(buffer);
         tank1.draw(buffer);
         tank2.draw(buffer);
+
+        tank1View = world.getSubimage(getScreenBoundsX(tank1), getScreenBoundsY(tank1), screenWidth/2-2, screenHeight);
+        tank2View = world.getSubimage(getScreenBoundsX(tank2), getScreenBoundsY(tank2),screenWidth/2, screenHeight);
+        g2.drawImage(tank1View, 0, 0, this);
+        g2.drawImage(tank2View, screenWidth/2, 0, this);
+
+        Image scaledMap = world.getScaledInstance(200, 200, 0);
+        g2.drawImage(scaledMap, 450, 350, 300, 150, this);
+
+        HealthBar();
+
     }
 
-    public void drawBullets() {
+    public void HealthBar() {
+
+        if (tank1.getHealth() == 2) {
+
+            g2.setColor(Color.black);
+            g2.drawRect(screenWidth-1100, screenHeight-60, 90, 10);
+            g2.setColor(Color.green);
+            g2.fillRect(screenWidth-1100, screenHeight-60, 90, 10);
+        }
+        if (tank1.getHealth() == 1 ) {
+
+            g2.setColor(Color.black);
+            g2.drawRect(screenWidth-1100, screenHeight-60, 90, 10);
+            g2.setColor(Color.green);
+            g2.fillRect(screenWidth-1100, screenHeight-60, 60, 10);
+        }
+        if (tank1.getHealth() == 0 ) {
+
+            g2.setColor(Color.black);
+            g2.drawRect(screenWidth-1100, screenHeight-60, 90, 10);
+            g2.setColor(Color.red);
+            g2.fillRect(screenWidth-1100, screenHeight-60, 30, 10);
+        }
+        if (tank2.getHealth() == 2) {
+
+            g2.setColor(Color.black);
+            g2.drawRect(screenWidth-190, screenHeight-60, 90, 10);
+            g2.setColor(Color.green);
+            g2.fillRect(screenWidth-190, screenHeight-60, 90, 10);
+        }
+        if (tank2.getHealth() == 1 ) {
+
+            g2.setColor(Color.black);
+            g2.drawRect(screenWidth-190, screenHeight-60, 90, 10);
+            g2.setColor(Color.green);
+            g2.fillRect(screenWidth-190, screenHeight-60, 60, 10);
+        }
+        if (tank2.getHealth() == 0 ) {
+
+            g2.setColor(Color.black);
+            g2.drawRect(screenWidth-190, screenHeight-60, 90, 10);
+            g2.setColor(Color.red);
+            g2.fillRect(screenWidth-190, screenHeight-60, 30, 10);
+        }
+    }
+
+    public void drawBullets(Graphics2D buffer) {
 
         for (int i = 0; i < tank1.getBulletList().size(); i++) {
-            tank1.getBulletList().get(i).draw(g2, this);
+            tank1.getBulletList().get(i).draw(buffer, this);
         }
         for (int i = 0; i < tank2.getBulletList().size(); i++) {
-            tank2.getBulletList().get(i).draw(g2, this);
+            tank2.getBulletList().get(i).draw(buffer, this);
         }
     }
 
@@ -110,8 +156,8 @@ public class TankGameWorld extends JPanel {
         int tileWidth = battleField.getWidth();
         int tileHeight = battleField.getHeight();
 
-        int numberX = width / tileWidth;
-        int numberY = height / tileHeight;
+        int numberX = worldWidth / tileWidth;
+        int numberY = worldHeight / tileHeight;
 
         for (int i = -1; i <= numberY; i++) {
 
@@ -121,7 +167,7 @@ public class TankGameWorld extends JPanel {
             }
         }
     }
-    
+
     public void mapMaker() {
 
         BufferedReader line = new BufferedReader(new InputStreamReader(textWalls));
@@ -221,6 +267,7 @@ public class TankGameWorld extends JPanel {
                 tank2.setHealth(tank2.getHealth()-1);
                 System.out.println(tank2.getHealth());
                 tank2.Respawn();
+                tank2.powerUp();
             }
         }
         for (int i = 0; i < tank2.getBulletList().size(); i++) {
@@ -233,10 +280,44 @@ public class TankGameWorld extends JPanel {
                 tank1.setHealth(tank1.getHealth()-1);
                 System.out.println(tank1.getHealth());
                 tank1.Respawn();
+                tank1.powerUp();
             }
         }
     }
 
+    public int getScreenBoundsX(Tank tank) {
+
+        if (tank.getTankCenterX() > 300) {
+            screenBoundsX = tank.getTankCenterX() - 300;
+        }
+        if (tank.getTankCenterX() + 300 <= 1408) {
+            screenBoundsX = tank.getTankCenterX() - 300;
+        }
+        if (tank.getTankCenterX() + 300 > 1408) {
+            screenBoundsX = (1408 - 600);
+        }
+        if (tank.getTankCenterX() <= 300) {
+            screenBoundsX = 0;
+        }
+        return screenBoundsX;
+    }
+
+    public int getScreenBoundsY(Tank tank) {
+
+        if (tank.getTankCenterY() > 250) {
+            screenBoundsY = tank.getTankCenterY() - 250;
+        }
+        if (tank.getTankCenterY() + 250 <= 704) {
+            screenBoundsY = tank.getTankCenterY() - 250;
+        }
+        if (tank.getTankCenterY() + 250 >= 704) {
+            screenBoundsY = 704 - 500;
+        }
+        if (tank.getTankCenterY() <= 250) {
+            screenBoundsY = 0;
+        }
+        return screenBoundsY;
+    }
     public static void main(String[] args) {
 
         TankGameWorld TGW = new TankGameWorld();

@@ -2,7 +2,10 @@ import java.awt.*;
 
 public abstract class GameObject {
 
-    protected int x, y, height, width;
+    protected  int x;
+    protected int y;
+    protected int height;
+    protected int width;
     protected Image img;
 
 
