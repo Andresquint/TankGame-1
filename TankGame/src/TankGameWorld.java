@@ -358,13 +358,13 @@ public class TankGameWorld extends JPanel {
 
     private int getScreenBoundsX(Tank tank) {
 
-        if (tank.getTankCenterX() + screenWidth/4 < worldWidth) {
+        if (tank.getTankCenterX() + screenWidth/4 <= worldWidth) {
             screenBoundsX = tank.getTankCenterX() - screenWidth/4;
         }
-        if (tank.getTankCenterX() + screenWidth/4 > worldWidth) {
+        if (tank.getTankCenterX() + screenWidth/4 >= worldWidth) {
             screenBoundsX = (worldWidth - screenWidth/2);
         }
-        if (tank.getTankCenterX() < screenWidth/4) {
+        if (tank.getTankCenterX() <= screenWidth/4) {
             screenBoundsX = 0;
         }
         return screenBoundsX;
@@ -372,13 +372,13 @@ public class TankGameWorld extends JPanel {
 
     private int getScreenBoundsY(Tank tank) {
 
-        if (tank.getTankCenterY() + screenHeight/2 < worldHeight) {
+        if (tank.getTankCenterY() + screenHeight/2 <= worldHeight) {
             screenBoundsY = tank.getTankCenterY() - screenHeight/2;
         }
-        if (tank.getTankCenterY() + screenHeight/2 > worldHeight) {
+        if (tank.getTankCenterY() + screenHeight/2 >= worldHeight) {
             screenBoundsY = worldHeight - screenHeight;
         }
-        if (tank.getTankCenterY() < screenHeight/2) {
+        if (tank.getTankCenterY() <= screenHeight/2) {
             screenBoundsY = 0;
         }
         return screenBoundsY;
