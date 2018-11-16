@@ -33,7 +33,7 @@ public class Tank extends GameObject {
         respawnAngle = angle;
 
         try {
-            bulletImg = ImageIO.read(new File("Resources/Shell 2.gif"));
+            bulletImg = ImageIO.read(new File("Resources/Shell.gif"));
         }
         catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -209,11 +209,11 @@ public class Tank extends GameObject {
     }
 
     public int getTankCenterX() {
-        return x + img.getWidth() / 2;
+        return x + (img.getWidth() / 2);
     }
 
     public int getTankCenterY() {
-        return y + img.getWidth() / 2;
+        return y + (img.getWidth() / 2);
     }
 
     public  Rectangle getTankRectangle (){

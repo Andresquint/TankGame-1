@@ -32,9 +32,8 @@ public class TankGameWorld extends JPanel {
             battleField = ImageIO.read(new File("Resources/Background.bmp"));
             wall = ImageIO.read(new File("Resources/Wall1.gif"));
             breakableWall = ImageIO.read(new File("Resources/Wall2.gif"));
-            powerUp = ImageIO.read(new File("Resources/Treasure1.gif"));
+            powerUp = ImageIO.read(new File("Resources/Health.gif"));
             textWalls = new FileInputStream("Resources/WallMap.txt");
-            bulletImg = ImageIO.read(new File("Resources/Shell 2.gif"));
             tank1img = read(new File("Resources/Tank1.gif"));
             tank2img = read(new File("Resources/Tank2.gif"));
             mapMaker();
@@ -282,15 +281,20 @@ public class TankGameWorld extends JPanel {
 
             if (tank1Rec.intersects(wallRec) || tank2Rec.intersects(wallRec)) {
 
-                if (walls.get(i).getType() == 3 && (tank1Rec.intersects(wallRec)))
+
+                if ((walls.get(i).getType() == 3 && (tank2Rec.intersects(wallRec))))
                 {
-                    walls.remove(i);
-                    tank1.setHealth(3);
-                }
-                if (walls.get(i).getType() == 3 && (tank2Rec.intersects(wallRec)))
-                {
+                    if(!(tank2.getHealth() == 3)){
                     walls.remove(i);
                     tank2.setHealth(3);
+                    }
+                }
+                else if ((walls.get(i).getType() == 3 && (tank1Rec.intersects(wallRec))))
+                {
+                    if(!(tank1.getHealth() == 3)){
+                        walls.remove(i);
+                        tank1.setHealth(3);
+                    }
                 }
                 else{
 
@@ -333,6 +337,7 @@ public class TankGameWorld extends JPanel {
                 tank2.setHealth(tank2.getHealth()-1);
 
                 if (tank2.getHealth() == -1) {
+
                     tank2.setLives(tank2.getLives()-1);
                     tank2.Respawn(3);
                     tank1.Respawn(tank1.getHealth());
