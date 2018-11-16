@@ -194,17 +194,17 @@ public class Tank extends GameObject {
 
     private void checkBorder() {
 
-        if (x < 35) {
-            x = 35;
+        if (x < 33) {
+            x = 33;
         }
-        if (x >= TankGameWorld.worldWidth - 100) {
-            x = TankGameWorld.worldWidth - 100;
+        if (x >= TankGameWorld.worldWidth - 91) {
+            x = TankGameWorld.worldWidth - 91;
         }
-        if (y < 35) {
-            y = 35;
+        if (y < 33) {
+            y = 33;
         }
-        if (y >= TankGameWorld.worldHeight - 100) {
-            y = TankGameWorld.worldHeight - 100;
+        if (y >= TankGameWorld.worldHeight - 91) {
+            y = TankGameWorld.worldHeight - 91;
         }
     }
 
