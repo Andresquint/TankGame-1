@@ -276,11 +276,9 @@ public class TankGameWorld extends JPanel {
             tank2.handleCollision();
         }
         for (int i = 0; i <= walls.size() - 1; i++) {
-
             wallRec = walls.get(i).getWallRectangle();
 
             if (tank1Rec.intersects(wallRec) || tank2Rec.intersects(wallRec)) {
-
 
                 if ((walls.get(i).getType() == 3 && (tank2Rec.intersects(wallRec))))
                 {
@@ -305,10 +303,9 @@ public class TankGameWorld extends JPanel {
                 }
             }
             for (int j = 0; j < tank1.getBulletList().size(); j++) {
-
                 bulletRec = tank1.getBulletList().get(j).getBulletRectangle();
 
-                if (wallRec.intersects(bulletRec)) {
+                if ((wallRec.intersects(bulletRec))&& !(walls.get(i).getType() == 3)) {
                     tank1.getBulletList().remove(j);
 
                     if (walls.get(i).getType() == 2)
@@ -316,10 +313,9 @@ public class TankGameWorld extends JPanel {
                 }
             }
             for (int j = 0; j < tank2.getBulletList().size(); j++) {
-
                 bulletRec = tank2.getBulletList().get(j).getBulletRectangle();
 
-                if (wallRec.intersects(bulletRec)) {
+                if ((wallRec.intersects(bulletRec))&& !(walls.get(i).getType() == 3)) {
                     tank2.getBulletList().remove(j);
 
                     if (walls.get(i).getType() == 2)
@@ -328,7 +324,6 @@ public class TankGameWorld extends JPanel {
             }
         }
         for (int i = 0; i < tank1.getBulletList().size(); i++) {
-
             bulletRec = tank1.getBulletList().get(i).getBulletRectangle();
 
             if (tank2Rec.intersects(bulletRec)) {
@@ -345,7 +340,6 @@ public class TankGameWorld extends JPanel {
             }
         }
         for (int i = 0; i < tank2.getBulletList().size(); i++) {
-
             bulletRec = tank2.getBulletList().get(i).getBulletRectangle();
 
             if (tank1Rec.intersects(bulletRec)){
