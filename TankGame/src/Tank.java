@@ -158,6 +158,7 @@ public class Tank extends GameObject {
     public void saveCordinatesY() {
         saveY = y;
     }
+
     public void setCollides(boolean collides) {
         this.collides = collides;
     }

@@ -87,7 +87,7 @@ public class TankGameWorld extends JPanel {
         g2.setColor(Color.white);
         g2.setFont(new Font("", Font.PLAIN, 20));
         g2.drawString("Player 1",screenWidth-1052,screenHeight-70);
-        g2.drawString("Player 2",screenWidth-190 ,screenHeight-70);
+        g2.drawString("Player 2",screenWidth-302 ,screenHeight-70);
 
     }
 
@@ -95,7 +95,7 @@ public class TankGameWorld extends JPanel {
 
         g2.setColor(Color.white);
         g2.drawRect(screenWidth-1050, screenHeight-60, 100, 12);
-        g2.drawRect(screenWidth-190, screenHeight-60, 100, 12);
+        g2.drawRect(screenWidth-300, screenHeight-60, 100, 12);
 
         if (tank1.getHealth() == 3) {
 
@@ -120,22 +120,22 @@ public class TankGameWorld extends JPanel {
         if (tank2.getHealth() == 3) {
 
             g2.setColor(Color.green);
-            g2.fillRect(screenWidth-188, screenHeight-58, 96, 8);
+            g2.fillRect(screenWidth-298, screenHeight-58, 96, 8);
         }
         if (tank2.getHealth() == 2) {
 
             g2.setColor(Color.green);
-            g2.fillRect(screenWidth-188, screenHeight-58, 71, 8);
+            g2.fillRect(screenWidth-298, screenHeight-58, 71, 8);
         }
         if (tank2.getHealth() == 1 ) {
 
             g2.setColor(Color.green);
-            g2.fillRect(screenWidth-188, screenHeight-58, 46, 8);
+            g2.fillRect(screenWidth-298, screenHeight-58, 46, 8);
         }
         if (tank2.getHealth() == 0 ) {
 
             g2.setColor(Color.red);
-            g2.fillRect(screenWidth-188, screenHeight-58, 21, 8);
+            g2.fillRect(screenWidth-298, screenHeight-58, 21, 8);
         }
     }
 
@@ -144,31 +144,31 @@ public class TankGameWorld extends JPanel {
         g2.setColor(Color.white);
 
         if (tank1.getLives() == 2){
-            g2.drawString("Lives: 2",screenWidth-1120,screenHeight-50);
+            g2.drawString("Lives: 2",screenWidth-930,screenHeight-50);
         }
         if (tank2.getLives() == 2) {
-            g2.drawString("Lives: 2", screenWidth - 260, screenHeight - 50);
+            g2.drawString("Lives: 2", screenWidth-180, screenHeight-50);
         }
         if (tank1.getLives() == 1){
-            g2.drawString("Lives: 1",screenWidth-1120,screenHeight-50);
+            g2.drawString("Lives: 1",screenWidth-930,screenHeight-50);
         }
         if (tank2.getLives() == 1) {
-            g2.drawString("Lives: 1", screenWidth - 260, screenHeight - 50);
+            g2.drawString("Lives: 1", screenWidth-180, screenHeight-50);
         }
         if (tank1.getLives() == 0){
-            g2.drawString("Lives: 0",screenWidth-1120,screenHeight-50);
+            g2.drawString("Lives: 0",screenWidth-930,screenHeight-50);
         }
         if (tank2.getLives() == 0) {
-            g2.drawString("Lives: 0", screenWidth - 260, screenHeight - 50);
+            g2.drawString("Lives: 0", screenWidth-180, screenHeight-50);
         }
         if (tank1.getLives() == -1){
-            g2.drawString("Lives: 0",screenWidth-1120,screenHeight-50);
+            g2.drawString("Lives: 0",screenWidth-930,screenHeight-50);
             g2.setFont(new Font("", Font.PLAIN, 60));
             g2.drawString("Game Over: Player 2 Wins",screenWidth-1000,screenHeight/2);
             endGame = true;
         }
         if (tank2.getLives() == -1) {
-            g2.drawString("Lives: 0", screenWidth - 260, screenHeight - 50);
+            g2.drawString("Lives: 0", screenWidth-180, screenHeight-50);
             g2.setFont(new Font("", Font.PLAIN, 60));
             g2.drawString("Game Over: Player 1 Wins",screenWidth-1000,screenHeight/2);
             endGame = true;
@@ -356,9 +356,6 @@ public class TankGameWorld extends JPanel {
 
     private int getScreenBoundsX(Tank tank) {
 
-        if (tank.getTankCenterX() > screenWidth/4) {
-            screenBoundsX = tank.getTankCenterX() - screenWidth/4;
-        }
         if (tank.getTankCenterX() + screenWidth/4 <= worldWidth) {
             screenBoundsX = tank.getTankCenterX() - screenWidth/4;
         }
@@ -373,9 +370,6 @@ public class TankGameWorld extends JPanel {
 
     private int getScreenBoundsY(Tank tank) {
 
-        if (tank.getTankCenterY() > screenHeight/2) {
-            screenBoundsY = tank.getTankCenterY() - screenHeight/2;
-        }
         if (tank.getTankCenterY() + screenHeight/2 <= worldHeight) {
             screenBoundsY = tank.getTankCenterY() - screenHeight/2;
         }
