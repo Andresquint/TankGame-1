@@ -230,13 +230,16 @@ public class TankGameWorld extends JPanel {
                 for ( i = 0; i < number.length(); i++ ) {
 
                     if (number.charAt(i) == '1') {
-                        walls.add(new Wall(wall, i * 32, j * 32, 1));
+                        walls.add(new Wall(wall, i * wall.getWidth(null),
+                                j * wall.getWidth(null), 1));
                     }
                     if (number.charAt(i) == '2') {
-                        walls.add(new Wall(breakableWall, i * 32, j * 32, 2));
+                        walls.add(new Wall(breakableWall, i * breakableWall.getWidth(null),
+                                j * breakableWall.getWidth(null), 2));
                     }
                     else if (number.charAt(i) == '3') {
-                        walls.add(new Wall(powerUp, i * 32, j * 32, 3));
+                        walls.add(new Wall(powerUp, i * powerUp.getWidth(null),
+                                j * powerUp.getWidth(null), 3));
                     }
                 }
                 j++;
