@@ -39,8 +39,8 @@ public class TankGameWorld extends JPanel {
             tank2img = read(new File("Resources/Tank2.gif"));
             mapMaker();
         }
-        catch (IOException ex) {
-            System.out.println(ex.getMessage());
+        catch (IOException e) {
+            System.out.println(e.getMessage());
         }
         tank1 = new Tank(2,100, 550,  0, tank1img);
         TankControl tankC1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
@@ -244,7 +244,7 @@ public class TankGameWorld extends JPanel {
             }
         }
         catch (Exception e) {
-            System.err.println("Map Maker" + e);
+            System.out.println(e.getMessage());
         }
     }
 
