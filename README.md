@@ -27,16 +27,26 @@ How to play the game:
 - Player one's screen is on the left and Player two's screen is on the right.
 
 - Player 1 controls:
+
 W: moves forward
+
 S: moves backwards
+
 A: rotates the tank counter clockwise
+
 D: rotates the tank clockwise
+
 Spacebar: fires the bullets
 
 - Player 2 controls:
+
 Up arrow: moves forward
+
 Down arrow: moves backwards
+
 Left arrow: rotates the tank counter clockwise
+
 Right arrow: rotates the tank clockwise
+
 Shift key: fires the bullets
 
