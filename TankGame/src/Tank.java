@@ -17,7 +17,7 @@ public class Tank extends GameObject {
     private double time, lastAttack = 0, bulletDelayTime;
     private int saveX, saveY, respawnX, respawnY, respawnAngle;
     private boolean collides;
-    private int health;
+    private int health, lives;
 
     Tank(int speed, int x, int y, int angle, BufferedImage img) {
 
@@ -27,6 +27,7 @@ public class Tank extends GameObject {
         this.BulletList = new ArrayList<>();
         this.tankSpeed = speed;
         this.health = 3;
+        this.lives = 2;
         respawnX = x;
         respawnY = y;
         respawnAngle = angle;
@@ -177,6 +178,10 @@ public class Tank extends GameObject {
     public int getHealth() {
         return this.health;
     }
+
+    public void setLives(int lives) {this.lives = lives;}
+
+    public int getLives() {return this.lives;}
 
     public void Respawn(int health) {
 
