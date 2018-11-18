@@ -26,7 +26,7 @@ public class Tank extends GameObject {
         this.angle = angle;
         this.BulletList = new ArrayList<>();
         this.tankSpeed = speed;
-        this.health = 3;
+        this.health = 4;
         this.lives = 2;
         respawnX = x;
         respawnY = y;

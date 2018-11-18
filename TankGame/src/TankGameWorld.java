@@ -96,45 +96,29 @@ public class TankGameWorld extends JPanel {
         g2.drawRect(screenWidth-1050, screenHeight-60, 100, 12);
         g2.drawRect(screenWidth-300, screenHeight-60, 100, 12);
 
-        if (tank1.getHealth() == 3) {
+        int healthReduction = 0;
 
-            g2.setColor(Color.green);
-            g2.fillRect(screenWidth-1048, screenHeight-58, 96, 8);
-        }
-        if (tank1.getHealth() == 2) {
+        for (int i = 4; i > 0; i--) {
 
-            g2.setColor(Color.green);
-            g2.fillRect(screenWidth-1048, screenHeight-58, 71, 8);
-        }
-        if (tank1.getHealth() == 1 ) {
-
-            g2.setColor(Color.green);
-            g2.fillRect(screenWidth-1048, screenHeight-58, 46, 8);
+           if (tank1.getHealth() == i) {
+               g2.setColor(Color.green);
+               g2.fillRect(screenWidth-1048, screenHeight-58, 96 - healthReduction, 8);
+           }
+           if (tank2.getHealth() == i) {
+               g2.setColor(Color.green);
+               g2.fillRect(screenWidth-298, screenHeight-58, 96 - healthReduction , 8);
+            }
+            healthReduction += 20;
         }
         if (tank1.getHealth() == 0 ) {
 
             g2.setColor(Color.red);
-            g2.fillRect(screenWidth-1048, screenHeight-58, 21, 8);
-        }
-        if (tank2.getHealth() == 3) {
-
-            g2.setColor(Color.green);
-            g2.fillRect(screenWidth-298, screenHeight-58, 96, 8);
-        }
-        if (tank2.getHealth() == 2) {
-
-            g2.setColor(Color.green);
-            g2.fillRect(screenWidth-298, screenHeight-58, 71, 8);
-        }
-        if (tank2.getHealth() == 1 ) {
-
-            g2.setColor(Color.green);
-            g2.fillRect(screenWidth-298, screenHeight-58, 46, 8);
+            g2.fillRect(screenWidth-1048, screenHeight-58, 16, 8);
         }
         if (tank2.getHealth() == 0 ) {
 
             g2.setColor(Color.red);
-            g2.fillRect(screenWidth-298, screenHeight-58, 21, 8);
+            g2.fillRect(screenWidth-298, screenHeight-58, 16, 8);
         }
     }
 
@@ -142,37 +126,29 @@ public class TankGameWorld extends JPanel {
 
         g2.setColor(Color.white);
 
-        if (tank1.getLives() == 2){
-            g2.drawString("Lives: 2",screenWidth-930,screenHeight-50);
+        for (int i = 2; i >= 0 ; i--) {
+
+            if (tank1.getLives() == i) {
+                g2.drawString("Lives: " + i, screenWidth - 930, screenHeight - 50);
+            }
+            if (tank2.getLives() == i) {
+                g2.drawString("Lives: " + i, screenWidth - 180, screenHeight - 50);
+            }
         }
-        if (tank2.getLives() == 2) {
-            g2.drawString("Lives: 2", screenWidth-180, screenHeight-50);
-        }
-        if (tank1.getLives() == 1){
-            g2.drawString("Lives: 1",screenWidth-930,screenHeight-50);
-        }
-        if (tank2.getLives() == 1) {
-            g2.drawString("Lives: 1", screenWidth-180, screenHeight-50);
-        }
-        if (tank1.getLives() == 0){
-            g2.drawString("Lives: 0",screenWidth-930,screenHeight-50);
-        }
-        if (tank2.getLives() == 0) {
-            g2.drawString("Lives: 0", screenWidth-180, screenHeight-50);
-        }
-        if (tank1.getLives() == -1){
-            g2.drawString("Lives: 0",screenWidth-930,screenHeight-50);
+        if (tank1.getLives() == -1) {
+            g2.drawString("Lives: 0", screenWidth - 930, screenHeight - 50);
             g2.setFont(new Font("", Font.PLAIN, 60));
-            g2.drawString("Game Over: Player 2 Wins",screenWidth-1000,screenHeight/2);
+            g2.drawString("Game Over: Player 2 Wins", screenWidth - 1000, screenHeight / 2);
             endGame = true;
-        }
+            }
         if (tank2.getLives() == -1) {
-            g2.drawString("Lives: 0", screenWidth-180, screenHeight-50);
+            g2.drawString("Lives: 0", screenWidth - 180, screenHeight - 50);
             g2.setFont(new Font("", Font.PLAIN, 60));
-            g2.drawString("Game Over: Player 1 Wins",screenWidth-1000,screenHeight/2);
+            g2.drawString("Game Over: Player 1 Wins", screenWidth - 1000, screenHeight / 2);
             endGame = true;
         }
     }
+
 
     public boolean isEndGame() {
         return endGame;
@@ -282,16 +258,16 @@ public class TankGameWorld extends JPanel {
 
                 if ((walls.get(i).getType() == 3 && (tank2Rec.intersects(wallRec))))
                 {
-                    if(!(tank2.getHealth() == 3)){
+                    if(!(tank2.getHealth() == 4)){
                     walls.remove(i);
-                    tank2.setHealth(3);
+                    tank2.setHealth(4);
                     }
                 }
                 else if ((walls.get(i).getType() == 3 && (tank1Rec.intersects(wallRec))))
                 {
-                    if(!(tank1.getHealth() == 3)){
+                    if(!(tank1.getHealth() == 4)){
                         walls.remove(i);
-                        tank1.setHealth(3);
+                        tank1.setHealth(4);
                     }
                 }
                 else{
@@ -334,7 +310,7 @@ public class TankGameWorld extends JPanel {
                 if (tank2.getHealth() == -1) {
 
                     tank2.setLives(tank2.getLives()-1);
-                    tank2.Respawn(3);
+                    tank2.Respawn(4);
                     tank1.Respawn(tank1.getHealth());
                 }
             }
@@ -348,8 +324,9 @@ public class TankGameWorld extends JPanel {
                 tank1.setHealth(tank1.getHealth()-1);
 
                 if (tank1.getHealth() == -1) {
+
                     tank1.setLives(tank1.getLives()-1);
-                    tank1.Respawn(3);
+                    tank1.Respawn(4);
                     tank2.Respawn(tank2.getHealth());
                 }
             }
