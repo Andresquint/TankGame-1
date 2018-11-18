@@ -7,7 +7,7 @@ public class Bullet extends GameObject{
     private Image img;
     private int angle;
 
-    public Bullet(Image img, int angle, int x, int y){
+    public Bullet(Image img, int angle, int x, int y) {
 
         super(img, x, y);
         this.img = img;
@@ -19,7 +19,7 @@ public class Bullet extends GameObject{
         moveYDirection = (int) Math.round(bulletSpeed * Math.sin(Math.toRadians(angle)));
     }
 
-    public boolean update(){
+    public boolean update() {
 
         x += moveXDirection;
         y += moveYDirection;
@@ -31,7 +31,7 @@ public class Bullet extends GameObject{
         return false;
         }
 
-    public  Rectangle getBulletRectangle (){
+    public  Rectangle getBulletRectangle () {
 
         return new Rectangle(x, y, width, height);
     }

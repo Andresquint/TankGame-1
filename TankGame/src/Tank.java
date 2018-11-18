@@ -9,25 +9,27 @@ import java.util.ArrayList;
 public class Tank extends GameObject {
 
     private int moveXDirection, moveYDirection, angle;
-    private int tankSpeed, rotationSpeed = 2;
+    private int tankSpeed, rotationSpeed;
     private static BufferedImage img;
     private Image bulletImg;
     private ArrayList<Bullet> BulletList;
     private boolean UpPressed, DownPressed, RightPressed, LeftPressed, ShootPressed;
-    private double time, lastAttack = 0, bulletDelayTime;
+    private double time, lastAttack, bulletDelayTime;
     private int saveX, saveY, respawnX, respawnY, respawnAngle;
     private boolean collides;
     private int health, lives;
 
-    Tank(int speed, int x, int y, int angle, BufferedImage img) {
+    Tank(int x, int y, int angle, BufferedImage img) {
 
         super(img, x, y);
         this.img = img;
         this.angle = angle;
         this.BulletList = new ArrayList<>();
-        this.tankSpeed = speed;
+        this.tankSpeed = 2;
+        this.rotationSpeed = 2;
         this.health = 4;
         this.lives = 2;
+        this.lastAttack = 0;
         respawnX = x;
         respawnY = y;
         respawnAngle = angle;
@@ -163,16 +165,17 @@ public class Tank extends GameObject {
         this.collides = collides;
     }
 
-    public void handleCollision(){
+    public void handleCollision() {
 
         if (collides){
+
             this.x = saveX;
             this.y = saveY;
             collides = false;
         }
     }
 
-    public void setHealth(int health){
+    public void setHealth(int health) {
         this.health = health;
     }
 
@@ -180,9 +183,13 @@ public class Tank extends GameObject {
         return this.health;
     }
 
-    public void setLives(int lives) {this.lives = lives;}
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
 
-    public int getLives() {return this.lives;}
+    public int getLives() {
+        return this.lives;
+    }
 
     public void Respawn(int health) {
 
@@ -216,7 +223,7 @@ public class Tank extends GameObject {
         return y + (img.getWidth() / 2);
     }
 
-    public  Rectangle getTankRectangle (){
+    public  Rectangle getTankRectangle () {
         return new Rectangle(x, y, width, height);
     }
 

@@ -41,13 +41,12 @@ public class TankGameWorld extends JPanel {
         catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        tank1 = new Tank(2,100, 550,  0, tank1img);
+        tank1 = new Tank(100, 550,  0, tank1img);
         TankControl tankC1 = new TankControl(tank1, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
 
-        tank2 = new Tank(2,1240, 90, 180, tank2img);
+        tank2 = new Tank(1240, 90, 180, tank2img);
         TankControl tankC2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
 
-        this.jf.setLayout(new BorderLayout());
         this.jf.add(this);
         this.jf.addKeyListener(tankC1);
         this.jf.addKeyListener(tankC2);
@@ -83,42 +82,44 @@ public class TankGameWorld extends JPanel {
 
         LivesCount();
         HealthBar();
+
         g2.setColor(Color.white);
         g2.setFont(new Font("", Font.PLAIN, 20));
         g2.drawString("Player 1",screenWidth-1052,screenHeight-70);
         g2.drawString("Player 2",screenWidth-302 ,screenHeight-70);
-
     }
 
     public void HealthBar() {
 
         g2.setColor(Color.white);
-        g2.drawRect(screenWidth-1050, screenHeight-60, 100, 12);
-        g2.drawRect(screenWidth-300, screenHeight-60, 100, 12);
+        g2.drawRect(screenWidth-1050, screenHeight-60, 104, 12);
+        g2.drawRect(screenWidth-300, screenHeight-60, 104, 12);
 
         int healthReduction = 0;
 
-        for (int i = 4; i > 0; i--) {
+        for (int i = 4; i >= 1; i--) {
 
            if (tank1.getHealth() == i) {
+
                g2.setColor(Color.green);
-               g2.fillRect(screenWidth-1048, screenHeight-58, 96 - healthReduction, 8);
+               g2.fillRect(screenWidth-1048, screenHeight-58, 100 - healthReduction, 8);
            }
            if (tank2.getHealth() == i) {
+
                g2.setColor(Color.green);
-               g2.fillRect(screenWidth-298, screenHeight-58, 96 - healthReduction , 8);
+               g2.fillRect(screenWidth-298, screenHeight-58, 100 - healthReduction , 8);
             }
             healthReduction += 20;
         }
         if (tank1.getHealth() == 0 ) {
 
             g2.setColor(Color.red);
-            g2.fillRect(screenWidth-1048, screenHeight-58, 16, 8);
+            g2.fillRect(screenWidth-1048, screenHeight-58, 20, 8);
         }
         if (tank2.getHealth() == 0 ) {
 
             g2.setColor(Color.red);
-            g2.fillRect(screenWidth-298, screenHeight-58, 16, 8);
+            g2.fillRect(screenWidth-298, screenHeight-58, 20, 8);
         }
     }
 
@@ -136,19 +137,20 @@ public class TankGameWorld extends JPanel {
             }
         }
         if (tank1.getLives() == -1) {
+
             g2.drawString("Lives: 0", screenWidth - 930, screenHeight - 50);
             g2.setFont(new Font("", Font.PLAIN, 60));
             g2.drawString("Game Over: Player 2 Wins", screenWidth - 1000, screenHeight / 2);
             endGame = true;
             }
         if (tank2.getLives() == -1) {
+
             g2.drawString("Lives: 0", screenWidth - 180, screenHeight - 50);
             g2.setFont(new Font("", Font.PLAIN, 60));
             g2.drawString("Game Over: Player 1 Wins", screenWidth - 1000, screenHeight / 2);
             endGame = true;
         }
     }
-
 
     public boolean isEndGame() {
         return endGame;
@@ -259,13 +261,15 @@ public class TankGameWorld extends JPanel {
                 if ((walls.get(i).getType() == 3 && (tank2Rec.intersects(wallRec))))
                 {
                     if(!(tank2.getHealth() == 4)){
-                    walls.remove(i);
-                    tank2.setHealth(4);
+
+                        walls.remove(i);
+                        tank2.setHealth(4);
                     }
                 }
                 else if ((walls.get(i).getType() == 3 && (tank1Rec.intersects(wallRec))))
                 {
                     if(!(tank1.getHealth() == 4)){
+
                         walls.remove(i);
                         tank1.setHealth(4);
                     }

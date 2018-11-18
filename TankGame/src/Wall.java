@@ -23,7 +23,7 @@ public class Wall extends GameObject {
         return new Rectangle(x, y, width, height);
     }
 
-    public void draw(Graphics2D g){
+    public void draw(Graphics2D g) {
         g.drawImage(img, x, y, null);
     }
 }
