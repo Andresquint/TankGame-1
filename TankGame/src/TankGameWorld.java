@@ -47,6 +47,7 @@ public class TankGameWorld extends JPanel {
         tank2 = new Tank(1240, 90, 180, tank2img);
         TankControl tankC2 = new TankControl(tank2, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SHIFT);
 
+        this.jf.setLayout(new BorderLayout());
         this.jf.add(this);
         this.jf.addKeyListener(tankC1);
         this.jf.addKeyListener(tankC2);
@@ -97,7 +98,7 @@ public class TankGameWorld extends JPanel {
 
         int healthReduction = 0;
 
-        for (int i = 4; i >= 1; i--) {
+        for (int i = 5; i > 1; i--) {
 
            if (tank1.getHealth() == i) {
 
@@ -111,12 +112,12 @@ public class TankGameWorld extends JPanel {
             }
             healthReduction += 20;
         }
-        if (tank1.getHealth() == 0 ) {
+        if (tank1.getHealth() == 1 ) {
 
             g2.setColor(Color.red);
             g2.fillRect(screenWidth-1048, screenHeight-58, 20, 8);
         }
-        if (tank2.getHealth() == 0 ) {
+        if (tank2.getHealth() == 1 ) {
 
             g2.setColor(Color.red);
             g2.fillRect(screenWidth-298, screenHeight-58, 20, 8);
@@ -260,18 +261,18 @@ public class TankGameWorld extends JPanel {
 
                 if ((walls.get(i).getType() == 3 && (tank2Rec.intersects(wallRec))))
                 {
-                    if(!(tank2.getHealth() == 4)){
+                    if(!(tank2.getHealth() == 5)){
 
                         walls.remove(i);
-                        tank2.setHealth(4);
+                        tank2.setHealth(5);
                     }
                 }
                 else if ((walls.get(i).getType() == 3 && (tank1Rec.intersects(wallRec))))
                 {
-                    if(!(tank1.getHealth() == 4)){
+                    if(!(tank1.getHealth() == 5)){
 
                         walls.remove(i);
-                        tank1.setHealth(4);
+                        tank1.setHealth(5);
                     }
                 }
                 else{
@@ -311,10 +312,10 @@ public class TankGameWorld extends JPanel {
                 tank1.getBulletList().remove(i);
                 tank2.setHealth(tank2.getHealth()-1);
 
-                if (tank2.getHealth() == -1) {
+                if (tank2.getHealth() == 0) {
 
                     tank2.setLives(tank2.getLives()-1);
-                    tank2.Respawn(4);
+                    tank2.Respawn(5);
                     tank1.Respawn(tank1.getHealth());
                 }
             }
@@ -327,10 +328,10 @@ public class TankGameWorld extends JPanel {
                 tank2.getBulletList().remove(i);
                 tank1.setHealth(tank1.getHealth()-1);
 
-                if (tank1.getHealth() == -1) {
+                if (tank1.getHealth() == 0) {
 
                     tank1.setLives(tank1.getLives()-1);
-                    tank1.Respawn(4);
+                    tank1.Respawn(5);
                     tank2.Respawn(tank2.getHealth());
                 }
             }

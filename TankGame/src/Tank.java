@@ -10,7 +10,7 @@ public class Tank extends GameObject {
 
     private int moveXDirection, moveYDirection, angle;
     private int tankSpeed, rotationSpeed;
-    private static BufferedImage img;
+    private BufferedImage img;
     private Image bulletImg;
     private ArrayList<Bullet> BulletList;
     private boolean UpPressed, DownPressed, RightPressed, LeftPressed, ShootPressed;
@@ -27,7 +27,7 @@ public class Tank extends GameObject {
         this.BulletList = new ArrayList<>();
         this.tankSpeed = 2;
         this.rotationSpeed = 2;
-        this.health = 4;
+        this.health = 5;
         this.lives = 2;
         this.lastAttack = 0;
         respawnX = x;
@@ -137,7 +137,7 @@ public class Tank extends GameObject {
 
     public double getBulletDelayTime(){
 
-        if(health == 0)
+        if(health == 1)
             return bulletDelayTime = 200;
         else
             return bulletDelayTime = 400;
