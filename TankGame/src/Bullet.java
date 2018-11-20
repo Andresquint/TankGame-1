@@ -36,7 +36,7 @@ public class Bullet extends GameObject{
         return new Rectangle(x, y, width, height);
     }
 
-    public void draw(Graphics2D g, TankGameWorld tankGameWorld) {
+    public void draw(Graphics2D g) {
 
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), 0, 0);

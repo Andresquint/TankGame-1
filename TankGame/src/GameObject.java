@@ -8,7 +8,6 @@ public abstract class GameObject {
     protected int width;
     protected Image img;
 
-
     public GameObject(Image img, int x, int y) {
 
         this.img = img;

@@ -19,7 +19,7 @@ public class Tank extends GameObject {
     private boolean collides;
     private int health, lives;
 
-    Tank(int x, int y, int angle, BufferedImage img) {
+    public Tank(BufferedImage img, int x, int y, int angle) {
 
         super(img, x, y);
         this.img = img;
@@ -42,43 +42,43 @@ public class Tank extends GameObject {
         }
     }
 
-    void toggleUpPressed() {
+    public void toggleUpPressed() {
         this.UpPressed = true;
     }
 
-    void toggleDownPressed() {
+    public void toggleDownPressed() {
         this.DownPressed = true;
     }
 
-    void toggleRightPressed() {
+    public void toggleRightPressed() {
         this.RightPressed = true;
     }
 
-    void toggleLeftPressed() {
+    public void toggleLeftPressed() {
         this.LeftPressed = true;
     }
 
-    void toggleShootPressed() {
+    public void toggleShootPressed() {
         this.ShootPressed = true;
     }
 
-    void unToggleUpPressed() {
+    public void unToggleUpPressed() {
         this.UpPressed = false;
     }
 
-    void unToggleDownPressed() {
+    public void unToggleDownPressed() {
         this.DownPressed = false;
     }
 
-    void unToggleRightPressed() {
+    public void unToggleRightPressed() {
         this.RightPressed = false;
     }
 
-    void unToggleLeftPressed() {
+    public void unToggleLeftPressed() {
         this.LeftPressed = false;
     }
 
-    void untoggleShootPressed() {
+    public void untoggleShootPressed() {
         this.ShootPressed = false;
     }
 
@@ -216,21 +216,21 @@ public class Tank extends GameObject {
     }
 
     public int getTankCenterX() {
-        return x + (img.getWidth() / 2);
+        return x + (img.getWidth()/2);
     }
 
     public int getTankCenterY() {
-        return y + (img.getWidth() / 2);
+        return y + (img.getWidth()/2);
     }
 
     public  Rectangle getTankRectangle () {
         return new Rectangle(x, y, width, height);
     }
 
-    void draw(Graphics2D g) {
+    public void draw(Graphics2D g) {
 
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
-        rotation.rotate(Math.toRadians(angle), this.img.getWidth() / 2.0, this.img.getHeight() / 2.0);
+        rotation.rotate(Math.toRadians(angle), this.img.getWidth() /2.0, this.img.getHeight() /2.0);
         g.drawImage(this.img, rotation, null);
     }
 }
