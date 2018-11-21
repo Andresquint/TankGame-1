@@ -3,15 +3,11 @@ import java.awt.geom.AffineTransform;
 
 public class Bullet extends GameObject{
 
-    private int x, y,angle, moveXDirection, moveYDirection, bulletSpeed;
-    private Image img;
+    private int angle, moveXDirection, moveYDirection, bulletSpeed;
 
     public Bullet(Image img, int angle, int x, int y) {
 
         super(img, x, y);
-        this.img = img;
-        this.x = x;
-        this.y = y;
         this.angle = angle;
         bulletSpeed = 8;
         moveXDirection = (int) Math.round(bulletSpeed * Math.cos(Math.toRadians(angle)));
@@ -22,9 +18,9 @@ public class Bullet extends GameObject{
 
         x += moveXDirection;
         y += moveYDirection;
-        }
+    }
 
-    public  Rectangle getBulletRectangle () {
+    public Rectangle getRectangle () {
 
         return new Rectangle(x, y, width, height);
     }
@@ -34,6 +30,5 @@ public class Bullet extends GameObject{
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
         rotation.rotate(Math.toRadians(angle), 0, 0);
         g.drawImage(this.img, rotation, null);
-
     }
 }

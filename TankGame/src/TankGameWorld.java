@@ -245,8 +245,8 @@ public class TankGameWorld extends JPanel {
 
     public void checkCollision() {
 
-        tank1Rec = tank1.getTankRectangle();
-        tank2Rec = tank2.getTankRectangle();
+        tank1Rec = tank1.getRectangle();
+        tank2Rec = tank2.getRectangle();
 
         // Checks to see if player 1 collides with player 2
         if (tank1Rec.intersects(tank2Rec)) {
@@ -261,7 +261,7 @@ public class TankGameWorld extends JPanel {
         }
         // Checks to see if the Tanks collide with the walls and the health power up
         for (int i = 0; i <= walls.size()-1; i++) {
-            wallRec = walls.get(i).getWallRectangle();
+            wallRec = walls.get(i).getRectangle();
 
             if (tank1Rec.intersects(wallRec) || tank2Rec.intersects(wallRec)) {
 
@@ -292,7 +292,7 @@ public class TankGameWorld extends JPanel {
             /* Checks to see if the bullets intersect with the breakable walls and
              * removes the bullet and the breakable wall */
             for (int j = 0; j < tank1.getBulletList().size(); j++) {
-                bulletRec = tank1.getBulletList().get(j).getBulletRectangle();
+                bulletRec = tank1.getBulletList().get(j).getRectangle();
 
                 if ((wallRec.intersects(bulletRec))&& !(walls.get(i).getType() == 3)) {
                     tank1.getBulletList().remove(j);
@@ -302,7 +302,7 @@ public class TankGameWorld extends JPanel {
                 }
             }
             for (int j = 0; j < tank2.getBulletList().size(); j++) {
-                bulletRec = tank2.getBulletList().get(j).getBulletRectangle();
+                bulletRec = tank2.getBulletList().get(j).getRectangle();
 
                 if ((wallRec.intersects(bulletRec))&& !(walls.get(i).getType() == 3)) {
                     tank2.getBulletList().remove(j);
@@ -316,7 +316,7 @@ public class TankGameWorld extends JPanel {
          * the health. It also respawns the tanks to their original positions after one tank losses all
          * of their health */
         for (int i = 0; i < tank1.getBulletList().size(); i++) {
-            bulletRec = tank1.getBulletList().get(i).getBulletRectangle();
+            bulletRec = tank1.getBulletList().get(i).getRectangle();
 
             if (tank2Rec.intersects(bulletRec)) {
 
@@ -334,7 +334,7 @@ public class TankGameWorld extends JPanel {
             }
         }
         for (int i = 0; i < tank2.getBulletList().size(); i++) {
-            bulletRec = tank2.getBulletList().get(i).getBulletRectangle();
+            bulletRec = tank2.getBulletList().get(i).getRectangle();
 
             if (tank1Rec.intersects(bulletRec)){
 

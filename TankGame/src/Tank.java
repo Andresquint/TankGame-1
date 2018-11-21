@@ -10,7 +10,6 @@ public class Tank extends GameObject {
 
     private int moveXDirection, moveYDirection, angle;
     private int tankSpeed, rotationSpeed;
-    private BufferedImage img;
     private Image bulletImg;
     private ArrayList<Bullet> BulletList;
     private boolean UpPressed, DownPressed, RightPressed, LeftPressed, ShootPressed;
@@ -22,7 +21,6 @@ public class Tank extends GameObject {
     public Tank(BufferedImage img, int x, int y, int angle) {
 
         super(img, x, y);
-        this.img = img;
         this.angle = angle;
         this.BulletList = new ArrayList<>();
         this.tankSpeed = 2;
@@ -218,14 +216,14 @@ public class Tank extends GameObject {
     }
 
     public int getTankCenterX() {
-        return x + (img.getWidth()/2);
+        return x + (width/2);
     }
 
     public int getTankCenterY() {
-        return y + (img.getWidth()/2);
+        return y + (height/2);
     }
 
-    public  Rectangle getTankRectangle () {
+    public Rectangle getRectangle () {
         return new Rectangle(x, y, width, height);
     }
 
@@ -233,7 +231,7 @@ public class Tank extends GameObject {
     public void draw(Graphics2D g) {
 
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
-        rotation.rotate(Math.toRadians(angle), this.img.getWidth() /2.0, this.img.getHeight() /2.0);
+        rotation.rotate(Math.toRadians(angle), width/2.0, height/2.0);
         g.drawImage(this.img, rotation, null);
     }
 }

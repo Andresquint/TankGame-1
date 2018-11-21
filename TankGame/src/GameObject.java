@@ -13,4 +13,6 @@ public abstract class GameObject {
         this.height = img.getHeight(null);
         this.width = img.getWidth(null);
     }
+
+    public abstract Rectangle getRectangle ();
 }
