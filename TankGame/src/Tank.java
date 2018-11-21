@@ -143,6 +143,7 @@ public class Tank extends GameObject {
             return bulletDelayTime = 400;
     }
 
+    // Method that shoots the bullets. A delay is needed for the bullets to not shoot too fast
     private void Shoot() {
 
         time = System.currentTimeMillis();
@@ -165,6 +166,7 @@ public class Tank extends GameObject {
         this.collides = collides;
     }
 
+    // handles the collision of the Tanks when it collides with a wall or the other Tank
     public void handleCollision() {
 
         if (collides){
@@ -198,7 +200,7 @@ public class Tank extends GameObject {
             angle = respawnAngle;
             this.health = health;
     }
-
+    // Makes sure the Tanks don't go beyond the border of the game
     private void checkBorder() {
 
         if (x < 33) {
@@ -227,6 +229,7 @@ public class Tank extends GameObject {
         return new Rectangle(x, y, width, height);
     }
 
+    // Draws the Tanks
     public void draw(Graphics2D g) {
 
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);

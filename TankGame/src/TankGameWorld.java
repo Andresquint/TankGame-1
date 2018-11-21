@@ -67,17 +67,21 @@ public class TankGameWorld extends JPanel {
         g2 = (Graphics2D) g;
         buffer = world.createGraphics();
 
+        // Draws the background, walls, bullets, and tanks
         drawBackGround(buffer);
         drawWall();
         drawBullets(buffer);
         tank1.draw(buffer);
         tank2.draw(buffer);
 
+        /* Draws both of the Tanks views and passes in the tanks screenBounds checker that centers the screens
+         * to the center of the tanks make sure it doesn't go beyond the game world */
         tank1View = world.getSubimage(getScreenBoundsX(tank1), getScreenBoundsY(tank1), screenWidth/2, screenHeight);
         tank2View = world.getSubimage(getScreenBoundsX(tank2), getScreenBoundsY(tank2),screenWidth/2, screenHeight);
         g2.drawImage(tank1View, 0, 0, this);
         g2.drawImage(tank2View, screenWidth/2, 0, this);
 
+        // Draws the mini map and the white outlines
         Image scaledMap = world.getScaledInstance(200, 200, 0);
         g2.drawImage(scaledMap, screenWidth/2-125, screenHeight-135, 250, 125, this);
         g2.setColor(Color.white);
@@ -88,12 +92,13 @@ public class TankGameWorld extends JPanel {
         LivesCount();
         HealthBar();
 
+        // Draws "player 1" and "player 2" at the bottom of the screen
         g2.setColor(Color.white);
         g2.setFont(new Font("", Font.PLAIN, 20));
         g2.drawString("Player 1",screenWidth-1052,screenHeight-70);
         g2.drawString("Player 2",screenWidth-302 ,screenHeight-70);
     }
-
+    // Creates the health bars and reduces them when the tanks get hit by the bullets
     public void HealthBar() {
 
         g2.setColor(Color.white);
@@ -127,7 +132,7 @@ public class TankGameWorld extends JPanel {
             g2.fillRect(screenWidth-298, screenHeight-58, 20, 8);
         }
     }
-
+    // draws the current lives on the screen
     public void LivesCount() {
 
         g2.setColor(Color.white);
@@ -243,6 +248,7 @@ public class TankGameWorld extends JPanel {
         tank1Rec = tank1.getTankRectangle();
         tank2Rec = tank2.getTankRectangle();
 
+        // Checks to see if player 1 collides with player 2
         if (tank1Rec.intersects(tank2Rec)) {
 
             tank1.setCollides(true);
@@ -253,6 +259,7 @@ public class TankGameWorld extends JPanel {
             tank2.setCollides(true);
             tank2.handleCollision();
         }
+        // Checks to see if the Tanks collide with the walls and the health power up
         for (int i = 0; i <= walls.size()-1; i++) {
             wallRec = walls.get(i).getWallRectangle();
 
@@ -274,7 +281,7 @@ public class TankGameWorld extends JPanel {
                         tank1.setHealth(5);
                     }
                 }
-                else{
+                else {
 
                 tank1.setCollides(true);
                 tank1.handleCollision();
@@ -282,6 +289,8 @@ public class TankGameWorld extends JPanel {
                 tank2.handleCollision();
                 }
             }
+            /* Checks to see if the bullets intersect with the breakable walls and
+             * removes the bullet and the breakable wall */
             for (int j = 0; j < tank1.getBulletList().size(); j++) {
                 bulletRec = tank1.getBulletList().get(j).getBulletRectangle();
 
@@ -303,6 +312,9 @@ public class TankGameWorld extends JPanel {
                 }
             }
         }
+        /* Checks to see if the bullets collides with the other tank and removes it, and decreases
+         * the health. It also respawns the tanks to their original positions after one tank losses all
+         * of their health */
         for (int i = 0; i < tank1.getBulletList().size(); i++) {
             bulletRec = tank1.getBulletList().get(i).getBulletRectangle();
 
@@ -341,7 +353,8 @@ public class TankGameWorld extends JPanel {
             }
         }
     }
-
+    /* centers the tank's screens when the tanks move around and stops the screen
+    *  when the the screen would go out of bounds of the game world */
     private int getScreenBoundsX(Tank tank) {
 
         if (tank.getTankCenterX() + screenWidth/4 <= worldWidth) {

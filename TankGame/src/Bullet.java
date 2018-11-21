@@ -3,9 +3,8 @@ import java.awt.geom.AffineTransform;
 
 public class Bullet extends GameObject{
 
-    private int x, y, moveXDirection, moveYDirection, bulletSpeed;
+    private int x, y,angle, moveXDirection, moveYDirection, bulletSpeed;
     private Image img;
-    private int angle;
 
     public Bullet(Image img, int angle, int x, int y) {
 
@@ -19,16 +18,10 @@ public class Bullet extends GameObject{
         moveYDirection = (int) Math.round(bulletSpeed * Math.sin(Math.toRadians(angle)));
     }
 
-    public boolean update() {
+    public void update() {
 
         x += moveXDirection;
         y += moveYDirection;
-
-        if(x < -bulletSpeed || x > TankGameWorld.worldWidth + bulletSpeed ||
-        y < -bulletSpeed || y > TankGameWorld.worldHeight + bulletSpeed){
-            return true;
-        }
-        return false;
         }
 
     public  Rectangle getBulletRectangle () {

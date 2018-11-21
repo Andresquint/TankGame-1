@@ -3,12 +3,8 @@ import java.awt.event.KeyListener;
 
 public class TankControl implements KeyListener {
 
+    private final int up, down, right, left, shoot;
     private Tank tank;
-    private final int up;
-    private final int down;
-    private final int right;
-    private final int left;
-    private final int shoot;
 
     public TankControl(Tank tank, int up, int down, int left, int right, int shoot) {
 
