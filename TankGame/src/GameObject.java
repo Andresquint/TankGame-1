@@ -1,11 +1,12 @@
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public abstract class GameObject {
 
-    protected  int x, y, height, width;
+    protected double x, y, height, width;
     protected Image img;
 
-    public GameObject(Image img, int x, int y) {
+    public GameObject(Image img, double x, double y) {
 
         this.img = img;
         this.x = x;
@@ -14,5 +15,5 @@ public abstract class GameObject {
         this.width = img.getWidth(null);
     }
 
-    public abstract Rectangle getRectangle ();
+    public abstract Rectangle2D.Double getRectangle ();
 }

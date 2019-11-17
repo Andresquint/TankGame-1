@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -8,23 +9,26 @@ import java.util.ArrayList;
 
 public class Tank extends GameObject {
 
-    private int moveXDirection, moveYDirection, angle;
-    private int tankSpeed, rotationSpeed;
-    private Image bulletImg;
+    private double moveXDirection, moveYDirection, angle;
+    private double tankSpeed, rotationSpeed;
+    private Image bulletImg, bulletImg2, bulletImg3;
     private ArrayList<Bullet> BulletList;
+    private int type;
     private boolean UpPressed, DownPressed, RightPressed, LeftPressed, ShootPressed;
     private double time, lastAttack, bulletDelayTime;
-    private int saveX, saveY, respawnX, respawnY, respawnAngle;
+    private double saveX, saveY, respawnX, respawnY, respawnAngle;
     private boolean collides;
     private int health, lives;
+    private  boolean bulletPowerUp = false;
 
-    public Tank(BufferedImage img, int x, int y, int angle) {
+    public Tank(BufferedImage img, double x, double y, double angle, int type) {
 
         super(img, x, y);
         this.angle = angle;
+        this.type = type;
         this.BulletList = new ArrayList<>();
-        this.tankSpeed = 2;
-        this.rotationSpeed = 2;
+        this.tankSpeed = 1.5;
+        this.rotationSpeed = 1.2;
         this.health = 5;
         this.lives = 2;
         this.lastAttack = 0;
@@ -34,6 +38,8 @@ public class Tank extends GameObject {
 
         try {
             bulletImg = ImageIO.read(new File("Resources/Shell.gif"));
+            bulletImg2 = ImageIO.read(new File("Resources/Shell2.gif"));
+            bulletImg3 = ImageIO.read(new File("Resources/Shell3.gif"));
         }
         catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -117,8 +123,8 @@ public class Tank extends GameObject {
 
     private void moveBackwards() {
 
-        moveXDirection = (int) Math.round(tankSpeed * Math.cos(Math.toRadians(angle)));
-        moveYDirection = (int) Math.round(tankSpeed * Math.sin(Math.toRadians(angle)));
+        moveXDirection = (tankSpeed * Math.cos(Math.toRadians(angle)));
+        moveYDirection = (tankSpeed * Math.sin(Math.toRadians(angle)));
         x -= moveXDirection;
         y -= moveYDirection;
         checkBorder();
@@ -126,17 +132,27 @@ public class Tank extends GameObject {
 
     private void moveForwards() {
 
-        moveXDirection = (int) Math.round(tankSpeed * Math.cos(Math.toRadians(angle)));
-        moveYDirection = (int) Math.round(tankSpeed * Math.sin(Math.toRadians(angle)));
+        moveXDirection = (tankSpeed * Math.cos(Math.toRadians(angle)));
+        moveYDirection = (tankSpeed * Math.sin(Math.toRadians(angle)));
         x += moveXDirection;
         y += moveYDirection;
         checkBorder();
     }
 
+    public void setBulletDelay(boolean bullet) {
+        bulletPowerUp = bullet;
+    }
+
+    public boolean getBulletDelay() {
+        return bulletPowerUp;
+    }
+
     public double getBulletDelayTime(){
 
-        if(health == 1)
+
+        if (bulletPowerUp == true) {
             return bulletDelayTime = 200;
+        }
         else
             return bulletDelayTime = 400;
     }
@@ -146,8 +162,17 @@ public class Tank extends GameObject {
 
         time = System.currentTimeMillis();
         if (time > lastAttack + getBulletDelayTime()) {
-
-            BulletList.add(new Bullet(bulletImg, angle,getTankCenterX(),getTankCenterY()));
+            if (bulletPowerUp == false){
+                    BulletList.add(new Bullet(bulletImg, angle, getTankCenterX(), getTankCenterY()));
+            }
+            if (bulletPowerUp == true){
+                if (type == 1){
+                    BulletList.add(new Bullet(bulletImg2, angle, getTankCenterX(), getTankCenterY()));
+                }
+                if (type == 2){
+                    BulletList.add(new Bullet(bulletImg3, angle, getTankCenterX(), getTankCenterY()));
+                }
+            }
             lastAttack = time;
         }
     }
@@ -204,34 +229,34 @@ public class Tank extends GameObject {
         if (x < 33) {
             x = 33;
         }
-        if (x >= TankGameWorld.worldWidth - 91) {
-            x = TankGameWorld.worldWidth - 91;
+        if (x >= TankGameWorld.worldWidth - 85) {
+            x = TankGameWorld.worldWidth - 85;
         }
-        if (y < 33) {
-            y = 33;
+        if (y < 35) {
+            y = 35;
         }
-        if (y >= TankGameWorld.worldHeight - 91) {
-            y = TankGameWorld.worldHeight - 91;
+        if (y >= TankGameWorld.worldHeight - 80) {
+            y = TankGameWorld.worldHeight - 80;
         }
     }
 
-    public int getTankCenterX() {
+    public double getTankCenterX() {
         return x + (width/2);
     }
 
-    public int getTankCenterY() {
+    public double getTankCenterY() {
         return y + (height/2);
     }
 
-    public Rectangle getRectangle () {
-        return new Rectangle(x, y, width, height);
+    public Rectangle2D.Double getRectangle () {
+        return new Rectangle2D.Double(x, y, width, height);
     }
 
     // Draws the Tanks
     public void draw(Graphics2D g) {
 
         AffineTransform rotation = AffineTransform.getTranslateInstance(x, y);
-        rotation.rotate(Math.toRadians(angle), width/2.0, height/2.0);
+        rotation.rotate(Math.toRadians(angle), width/2, height/2);
         g.drawImage(this.img, rotation, null);
     }
 }

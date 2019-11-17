@@ -1,11 +1,12 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 public class Bullet extends GameObject{
 
-    private int angle, moveXDirection, moveYDirection, bulletSpeed;
+    private double angle, moveXDirection, moveYDirection, bulletSpeed;
 
-    public Bullet(Image img, int angle, int x, int y) {
+    public Bullet(Image img, double angle, double x, double y) {
 
         super(img, x, y);
         this.angle = angle;
@@ -20,9 +21,8 @@ public class Bullet extends GameObject{
         y += moveYDirection;
     }
 
-    public Rectangle getRectangle () {
-
-        return new Rectangle(x, y, width, height);
+    public Rectangle2D.Double getRectangle () {
+        return new Rectangle2D.Double(x, y, width, height);
     }
 
     public void draw(Graphics2D g) {
