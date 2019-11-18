@@ -4,7 +4,7 @@ IDE: IntelliJ
 
 Java Version: 1.8.0_152
 
-Working Directory: csc413-tankgame-turbosmr/TankGame
+Working Directory: https://github.com/turbosmr/TankGame
 
 
 How to play the game:
