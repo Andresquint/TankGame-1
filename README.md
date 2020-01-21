@@ -1,10 +1,7 @@
 # csc413-TankGame
 
 IDE: IntelliJ
-
 Java Version: 1.8.0_152
-
-Working Directory: https://github.com/turbosmr/TankGame
 
 ## Demo 
 
