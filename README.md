@@ -22,7 +22,6 @@ How to play the game:
 * There are 2 health packs that a player can collect in the middle of the battlefield that will replenish the player's health back to full health. The health packs will not reappear.
 * There are 2 kinds of blocks in the game world. Ones that can be broken are darker in color and the ones that can't be broken are lighter in color.
 * Player one's screen is on the left and Player two's screen is on the right.
-
 * Player 1 controls:
 
 W: moves forward
