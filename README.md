@@ -6,6 +6,13 @@ Java Version: 1.8.0_152
 
 Working Directory: https://github.com/turbosmr/TankGame
 
+## Demo 
+
+Here's a demo of my Tank Game:
+
+<img src='https://media.giphy.com/media/ZCYNRQ6vWJziDoG1NW/giphy.gif' width='' alt='Video Walkthrough' />
+
+GIF created with [giphy](https://giphy.com).
 
 How to play the game:
 
