@@ -11,6 +11,10 @@ Here's a demo of my Tank Game:
 
 GIF created with [giphy](https://giphy.com).
 
+## About:
+
+This was my first game project for my CSC 613 at SFSU. It was coded in Java, using OOP.
+
 How to play the game:
 
 * Tank Wars is a two player game with two tanks.
