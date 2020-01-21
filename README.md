@@ -2,8 +2,8 @@
 
 By: **Steve Rentschler**
 
-IDE: IntelliJ
-Java Version: 1.8.0_152
+IDE: **IntelliJ**
+Java Version: **1.8.0_152**
 
 ## Demo 
 
