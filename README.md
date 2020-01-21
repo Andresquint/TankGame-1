@@ -1,4 +1,4 @@
-# csc413-TankGame
+# Tank Game
 
 By: **Steve Rentschler**
 
