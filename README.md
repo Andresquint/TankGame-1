@@ -26,19 +26,20 @@ How to play the game:
 * There are machine gun power ups that double your rate of fire.
 * There are 2 kinds of blocks in the game world. Ones that can be broken are darker in color and the ones that can't be broken are lighter in color.
 * Player one's screen is on the left and Player two's screen is on the right.
+
 ***Player 1 controls:***
 
  **W: moves forward**
- **S: moves backwards
- **A: rotates the tank counter clockwise
- **D: rotates the tank clockwise
- **Spacebar: fires the bullets
+ **S: moves backwards**
+ **A: rotates the tank counter clockwise**
+ **D: rotates the tank clockwise**
+ **Spacebar: fires the bullets**
 
 ***Player 2 controls:***
 
- **Up arrow: moves forward
- **Down arrow: moves backwards
- **Left arrow: rotates the tank counter clockwise
- **Right arrow: rotates the tank clockwise
- **Shift key: fires the bullets
+ **Up arrow: moves forward**
+ **Down arrow: moves backwards**
+ **Left arrow: rotates the tank counter clockwise**
+ **Right arrow: rotates the tank clockwise**
+ **Shift key: fires the bullets**
 
