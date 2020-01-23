@@ -29,11 +29,11 @@ How to play the game:
 
 ***Player 1 controls:***
 
- **W: moves forward**
- **S: moves backwards**
- **A: rotates the tank counter clockwise**
- **D: rotates the tank clockwise**
- **Spacebar: fires the bullets**
+ - W: moves forward
+ - S: moves backwards
+ - A: rotates the tank counter clockwise
+ - D: rotates the tank clockwise
+ - Spacebar: fires the bullets
 
 ***Player 2 controls:***
 
