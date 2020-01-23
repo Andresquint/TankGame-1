@@ -37,9 +37,9 @@ How to play the game:
 
 ***Player 2 controls:***
 
- **Up arrow: moves forward**
- **Down arrow: moves backwards**
- **Left arrow: rotates the tank counter clockwise**
- **Right arrow: rotates the tank clockwise**
- **Shift key: fires the bullets**
+ - Up arrow: moves forward
+ - Down arrow: moves backwards
+ - Left arrow: rotates the tank counter clockwise
+ - Right arrow: rotates the tank clockwise
+ - Shift key: fires the bullets
 
