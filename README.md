@@ -28,7 +28,7 @@ How to play the game:
 * Player one's screen is on the left and Player two's screen is on the right.
 * Player 1 controls:
 
- ** W: moves forward **
+ **W: moves forward**
  - S: moves backwards
  - A: rotates the tank counter clockwise
  - D: rotates the tank clockwise
